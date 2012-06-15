@@ -1,0 +1,9 @@
+{ 
+  "name": "Draper", 
+  "sections": [ 
+    {"section": "introduction"},
+    {"section": "creation"},
+    {"section": "usage"},
+    {"section": "conclusion"}  
+  ]
+}
