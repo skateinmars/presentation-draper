@@ -1,0 +1,299 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>Draper</title>
+
+  <meta name="viewport" content="width=device-width"/>
+
+  <link rel="stylesheet" href="./css/reset.css" type="text/css"/>
+  <link rel="stylesheet" href="./css/showoff.css" type="text/css"/>
+
+  <script type="text/javascript" src="./js/jquery-1.4.2.min.js"></script>
+  <script type="text/javascript" src="./js/jquery.cycle.all.js"></script>
+	<script type="text/javascript" src="./js/jquery-print.js"></script>
+  <script type="text/javascript" src="./js/jquery.batchImageLoad.js"></script>
+
+  <script type="text/javascript" src="./js/jquery.doubletap-0.1.js"></script>
+
+  <script type="text/javascript" src="./js/fg.menu.js"></script>
+  <script type="text/javascript" src="./js/showoff.js"></script>
+  <script type="text/javascript" src="./js/jTypeWriter.js"> </script>
+  <script type="text/javascript" src="./js/sh_main.min.js"></script>
+  <script type="text/javascript" src="./js/core.js"></script>
+  <script type="text/javascript" src="./js/showoffcore.js"></script>
+  <script type="text/javascript" src="./js/coffee-script.js"></script>
+
+  <link type="text/css" href="./css/fg.menu.css" media="screen" rel="stylesheet" />
+  <link type="text/css" href="./css/theme/ui.all.css" media="screen" rel="stylesheet" />
+  <link type="text/css" href="./css/sh_style.css" rel="stylesheet" >
+
+  
+    <link rel="stylesheet" href="file/custom.css" type="text/css"/>
+  
+
+  
+
+  <script type="text/javascript">
+  $(function(){
+      setupPreso(false, './');
+  });
+  </script>
+
+</head>
+
+<body>
+
+<a tabindex="0" href="#search-engines" class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="navmenu"><span class="ui-icon ui-icon-triangle-1-s"></span>slides</a>
+<div id="navigation" class="hidden"></div>
+
+<div id="help">
+  <table>
+    <tr><td class="key">z, ?</td><td>toggle help (this)</td></tr>
+    <tr><td class="key">space, &rarr;</td><td>next slide</td></tr>
+    <tr><td class="key">shift-space, &larr;</td><td>previous slide</td></tr>
+    <tr><td class="key">d</td><td>toggle debug mode</td></tr>
+    <tr><td class="key">## &lt;ret&gt;</td><td>go to slide #</td></tr>
+    <tr><td class="key">c, t</td><td>table of contents (vi)</td></tr>
+    <tr><td class="key">f</td><td>toggle footer</td></tr>
+    <tr><td class="key">r</td><td>reload slides</td></tr>
+    <tr><td class="key">n</td><td>toggle notes</td></tr>
+    <tr><td class="key">p</td><td>run preshow</td></tr>
+  </table>
+</div>
+
+<div class="buttonNav">
+  <input type="submit" onClick="prevStep();" value="prev"/>
+  <input type="submit" onClick="nextStep();" value="next"/>
+</div>
+
+<div id="preso">loading presentation...</div>
+<div id="footer">
+  <span id="slideInfo"></span>
+  <span id="debugInfo"></span>
+  <span id="notesInfo"></span>
+</div>
+
+<div id="slides" class="offscreen" style="display:none;">
+<div class="slide" data-transition="none"><div class="content" ref="introduction/01_presentation/1">
+<h1>Draper</h1>
+
+<h2>View Models for Rails</h2></div>
+</div><div class="slide" data-transition="none"><div class="content bullets" ref="introduction/01_presentation/2">
+<h1>Le probl&#xE8;me</h1>
+
+<ul>
+<li>helpers : simples collections de fonctions</li>
+<li>bouts de vues dans les mod&#xE8;les</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content code" ref="introduction/01_presentation/3">
+<h1>Helper</h1>
+
+<pre class="sh_ruby"><code>
+module ProductsHelper
+  def formatted_price(product)
+    number_with_precision
+      (product.price_without_taxes/100.0),
+      :precision =&gt; 2
+  end
+end</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content code" ref="introduction/01_presentation/4">
+<h1>Bloated Model</h1>
+
+<pre class="sh_ruby"><code>
+class Product
+  def formatted_price_without_taxes
+    Object.new.extend(
+        ActionView::Helpers::NumberHelper)
+        .number_with_precision(
+          (price_without_taxes / 100.0),
+            :precision =&gt; 2)
+    )
+  end
+end</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content smbullets" ref="introduction/01_presentation/5">
+<h2>Solution : decorators/presenters</h2>
+
+<ul>
+<li>Decorator, Presenter, Exhibit, Composite : OO Design patterns</li>
+<li>Ajouter des fonctionnalit&#xE9;s (m&#xE9;thodes) &#xE0; un objet</li>
+<li>D&#xE9;l&#xE9;guer des m&#xE9;thodes &#xE0; son objet li&#xE9;</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content smbullets" ref="introduction/01_presentation/6">
+<h2>Draper</h2>
+
+<ul>
+<li>Remplace les helpers par des classes/objets</li>
+<li>"Enrobe" les mod&#xE8;les Rails</li>
+<li>Interface entre un mod&#xE8;le et les vues</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content bullets" ref="introduction/02_installation/1">
+<h1>Installation</h1>
+
+<ul>
+<li>Ajouter "<code>draper</code>" au Gemfile</li>
+<li><code>bundle</code></li>
+<li><code>rails generate decorator nomdumodele</code></li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content code" ref="introduction/02_installation/2">
+<h2>Exemple</h2>
+
+<pre class="sh_ruby"><code>class ArticleDecorator &lt; ApplicationDecorator
+  decorates :article
+  allows :description
+
+  def title
+    article.title.upcase
+  end
+end</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content code" ref="introduction/02_installation/3">
+<h2>Exemple</h2>
+
+<pre class="sh_ruby"><code>article = ArticleDecorator.find(1)
+article.title #=&gt; "MON ARTICLE"
+article.description #=&gt; "Ma description"
+article.created_at #=&gt; NoMethodError</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content bullets" ref="usage/01_methods/1">
+<h1>ModelDecorator</h1>
+
+<ul>
+<li><code>app/decorators/model_decorator.rb</code></li>
+<li>Li&#xE9; &#xE0; un mod&#xE8;le Rails (ActiveModel)</li>
+<li>Contient les m&#xE9;thodes utilisables dans les vues</li>
+<li>Acc&#xE8;s au mod&#xE8;le et aux helpers rails depuis ces m&#xE9;thodes</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content code" ref="usage/01_methods/2">
+<h2>Exemple</h2>
+
+<pre class="sh_ruby"><code>class ArticleDecorator &lt; ApplicationDecorator
+  def author_name
+    article.author.first_name +
+      " " +
+      article.author.last_name
+  end
+
+  def excerpt
+    h.truncate article.body
+  end
+end</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content" ref="usage/02_features/1">
+<h2>D&#xE9;corer un mod&#xE8;le (depuis un controller)</h2>
+
+<pre class="sh_ruby"><code>ArticleDecorator.new(Article.find(params[:id]))
+ArticleDecorator.find(params[:id])
+
+ArticleDecorator.decorate(Article.all)</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content smbullets" ref="usage/02_features/2">
+<h2>Fonctionnalit&#xE9;s</h2>
+
+<ul>
+<li><code>allow/denies</code> : acc&#xE8;s direct aux m&#xE9;thodes du mod&#xE8;le</li>
+<li>H&#xE9;ritage (sous-classes D&#xE9;corator)</li>
+<li>ApplicationDecorator : m&#xE9;thodes communes aux d&#xE9;corateurs</li>
+<li><code>decorates_association</code> pour cha&#xEE;ner les decorateurs</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content code" ref="usage/02_features/3">
+<h2>ApplicationDecorator</h2>
+
+<pre class="sh_ruby"><code>class ApplicationDecorator &lt; Draper::Base
+  def created_at
+    h.content_tag :span, 
+              I18n.l(model.created_at), 
+              :class =&gt; 'created_at'
+  end
+end</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content code" ref="usage/02_features/4">
+
+
+<p class="notes">decorates_association</p>
+
+<pre class="sh_ruby"><code>class Article &lt; ActiveRecord::Base
+  belongs_to :author
+end
+
+class ArticleDecorator &lt; ApplicationDecorator
+  decorates :article
+  decorates_association :author
+end
+
+class AuthorDecorator &lt; ApplicationDecorator
+  decorates :author
+
+  def name
+    "#{model.first_name} #{model.last_name}"
+  end
+end
+
+@article.author.name</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content smbullets" ref="usage/03_example_usage">
+<h2>Cas d'utilisation</h2>
+
+<ul>
+<li>Simplifie la vie &#xE0; l'int&#xE9;grateur (d&#xE9;terminer quelles m&#xE9;thodes sont utilisables dans une vue)</li>
+<li>Mettre en forme du texte</li>
+<li>Mettre en forme des nombres (pourcentages, prix...)</li>
+<li>Afficher un bool&#xE9;en comme une ic&#xF4;ne</li>
+<li>Afficher une image ou du texte pour <code>state_machine</code></li>
+<li>Liens &#xE9;dition/suppression (en tenant compte du <code>current_user</code>)</li>
+<li><code>to_json</code>, <code>to_xml</code>, <code>to_csv</code>...</li>
+<li>Class methods</li>
+</ul>
+</div>
+</div><div class="slide" data-transition="none"><div class="content" ref="usage/05_class_methods">
+<h3>Exemple de m&#xE9;thode de classe : <code>options_for_select</code></h3>
+
+<pre class="sh_ruby"><code># app/decorators/author_decorator.rb
+class AuthorDecorator &lt; ApplicationDecorator
+  decorates :author
+
+  def self.choices_for_select
+    Author.
+      order('last_name DESC').
+      all.
+      collect {|p| [ p.last_name, p.id ] }
+  end
+end
+
+# app/views/articles/_form.html.erb
+&lt;%= form.select 
+        :author_id, 
+        AuthorDecorator.choices_for_select %&gt;</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content code" ref="usage/06_tests">
+<h2>Rspec</h2>
+
+<pre class="sh_ruby"><code># spec/decorators/author_decorator_spec.rb
+require 'spec_helper'
+
+describe AuthorDecorator do
+  context "given a new Author" do
+    subject { 
+      AuthorDecorator.decorate(
+        FactoryGirl.build(:author, 
+          :first_name =&gt; "Dupond")) 
+    }
+
+    it "displays its first_name" do
+      subject.first_name.should == "Dupond"
+    end
+  end
+end</code></pre></div>
+</div><div class="slide" data-transition="none"><div class="content bullets" ref="conclusion/01_conclusion">
+<h1>Conclusion</h1>
+
+<ul>
+<li>Nettoyez vos mod&#xE8;les !</li>
+<li>https://github.com/jcasimir/draper</li>
+</ul>
+</div>
+</div></div>
+
+</body>
+</html>
